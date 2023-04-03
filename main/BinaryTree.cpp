@@ -1,8 +1,8 @@
 #include "BinaryTree.h"
-#include "Stack.h"
+#include "Queue.cpp"
+#include "Stack.cpp"
 #include <iostream>
 
-#include "Queue.h"
 using namespace std;
 
 template <class T>
@@ -39,7 +39,7 @@ void binaryTree<T>::clear(binaryTree<T>::Node *&t) {
     clear(t->left);
     clear(t->right);
     delete t;
-    t = NULL;  // 起什么作用？
+    t = NULL;
 }
 template <class T>
 void binaryTree<T>::clear() {
@@ -53,10 +53,11 @@ void binaryTree<T>::preOrder(binaryTree<T>::Node *t) const {
     preOrder(t->left);
     preOrder(t->right);
 }
-// template <class T>
-// void binaryTree<T>::preOrder() const {
-//     cout << "\n前序遍历:";
-//     preOrder(root);
+template <class T>
+void binaryTree<T>::preOrder() const {
+    cout << "\n前序遍历:";
+    preOrder(root);
+}
 // }
 template <class T>
 void binaryTree<T>::midOrder(binaryTree<T>::Node *t) const {
@@ -65,11 +66,11 @@ void binaryTree<T>::midOrder(binaryTree<T>::Node *t) const {
     cout << t->data << ' ';
     midOrder(t->right);
 }
-// template <class T>
-// void binaryTree<T>::midOrder() const {
-//     cout << "\n中序遍历:";
-//     midOrder(root);
-// }
+template <class T>
+void binaryTree<T>::midOrder() const {
+    cout << "\n中序遍历:";
+    midOrder(root);
+}
 
 template <class T>
 void binaryTree<T>::postOrder(binaryTree<T>::Node *t) const {
@@ -78,11 +79,11 @@ void binaryTree<T>::postOrder(binaryTree<T>::Node *t) const {
     postOrder(t->right);
     cout << t->data << ' ';
 }
-// template <class T>
-// void binaryTree<T>::postOrder() const {
-//     cout << "\n后序遍历:";
-//     postOrder(root);
-// }
+template <class T>
+void binaryTree<T>::postOrder() const {
+    cout << "\n后序遍历:";
+    postOrder(root);
+}
 
 template <class T>
 void binaryTree<T>::levelOrder() const {
@@ -98,21 +99,61 @@ void binaryTree<T>::levelOrder() const {
     }
 }
 
+
+
+template <class T>
+typename binaryTree<T>::Node *binaryTree<T>::find(T x, binaryTree<T>::Node *t) const {
+    Node *tmp;
+    if (t == NULL) return NULL;
+    if (t->data == x) return t;
+    if (tmp = find(x, t->left))
+        return tmp;
+    else
+        return find(x, t->right);
+}
+
+template <class T>
+void binaryTree<T>::delLeft(T x) {
+    Node *tmp = find(x, root);
+    if (tmp == NULL) return;
+    clear(tmp->left);
+}
+
+template <class T>
+void binaryTree<T>::delRight(T x) {
+    Node *tmp = find(x, root);
+    if (tmp == NULL) return;
+    clear(tmp->right);
+}
+
+template <class T>
+T binaryTree<T>::lchild(T x, T flag) const {
+    Node *tmp = find(x, root);
+    if (tmp == NULL || tmp->left != NULL) return flag;
+    return tmp->left->data;
+}
+
+template <class T>
+T binaryTree<T>::rchild(T x, T flag) const {
+    Node *tmp = find(x, root);
+    if (tmp == NULL || tmp->right != NULL) return flag;
+    return tmp->right->data;
+}
+
 template <class T>
 void binaryTree<T>::createTree(T flag) {
-    linkQueue<Node *> que;  // 队列结点为指向Node的指针
+    linkQueue<Node *> que;
     Node *tmp;
     T x, ldata, rdata;
-    // 创建树，输入flag表示空
-    cout << "\n输入根结点:";
+    cout << "\nEnter node:";
     cin >> x;
     root = new Node(x);
     que.enQueue(root);
     while (!que.isEmpty()) {
         tmp = que.deQueue();
-        cout << "\n输入" << tmp->data
-             << "的两个儿子(" << flag
-             << "表示空结点):";
+        cout << "\nEnter" << tmp->data
+             << "'s 2 childs'(" << flag
+             << "means empty node):";
         cin >> ldata >> rdata;
         if (ldata != flag)
             que.enQueue(tmp->left = new Node(ldata));
@@ -123,7 +164,23 @@ void binaryTree<T>::createTree(T flag) {
 }
 
 template <class T>
-void binaryTree<T>::preOrder() const {
+void printTree(const binaryTree<T> &t, T flag) {
+    linkQueue<T> q;
+    q.enQueue(t.root->data);
+    cout << endl;
+    while (!q.isEmpty()) {
+        char p, l, r;
+        p = q.deQueue();
+        l = t.lchild(p, flag);
+        r = t.rchild(p, flag);
+        cout << p << " " << l << " " << r << endl;
+        if (l != flag) q.enQueue(l);
+        if (r != flag) q.enQueue(r);
+    }
+}
+
+template <class T>
+void binaryTree<T>::preOrderNonRecursive() const {
     linkStack<Node *> s;
     Node *current;
     cout << "前序遍历: ";
@@ -137,7 +194,7 @@ void binaryTree<T>::preOrder() const {
 }
 
 template <class Type>
-void binaryTree<Type>::midOrder() const {
+void binaryTree<Type>::midOrderNonRecursive() const {
     linkStack<StNode> s;
     StNode current(root);  // 提前判断一下是否是空树
     cout << "中序遍历: ";
@@ -158,7 +215,7 @@ void binaryTree<Type>::midOrder() const {
 }
 
 template <class Type>
-void binaryTree<Type>::postOrder() const {
+void binaryTree<Type>::postOrderNonRecursive() const {
     linkStack<StNode> s;
     StNode current(root);
     cout << "后序遍历: ";
@@ -181,6 +238,19 @@ void binaryTree<Type>::postOrder() const {
 }
 
 int main(int argc, char const *argv[]) {
-    /* code */
+    binaryTree<char> tree;
+    tree.createTree('@');
+    tree.preOrder();
+    tree.midOrder();
+    tree.postOrder();
+    tree.levelOrder();
+
+    printTree(tree, '@');
+
+    tree.delLeft ('L');
+    tree.delRight('C');
+    tree.delLeft ('C');
+    // printTree(tree,'@');
     return 0;
 }
+

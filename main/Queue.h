@@ -1,3 +1,4 @@
+// #pragma once
 template <class elemType>
 class queue {
    public:
@@ -45,9 +46,10 @@ class linkQueue : public queue<elemType> {
    public:
     linkQueue();
     ~linkQueue();
-    bool isEmpty() const;
+    bool isEmpty();
     void enQueue(const elemType &x);
     elemType deQueue();
-    elemType getHead() const;
+    elemType getHead();
 
 };
+

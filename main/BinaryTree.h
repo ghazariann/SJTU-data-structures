@@ -1,11 +1,12 @@
 #include <iostream>
 
 #include "Tree.h"
+
 using namespace std;
 
 template <class T>
 class binaryTree : public bTree<T> {
-    friend void printTree(const binaryTree &t, T flag);
+    friend void printTree(const binaryTree &t, T flag){}
 
    private:
     struct Node {
@@ -25,7 +26,9 @@ class binaryTree : public bTree<T> {
     public : binaryTree() : root(NULL) {
     }
     binaryTree(T x) { root = new Node(x); }
-    ~binaryTree();
+    ~binaryTree(){
+        clear();
+    };
     void clear();  // 删除整棵树
     int size(Node *t) const;
     int height(Node *t) const;
@@ -38,6 +41,11 @@ class binaryTree : public bTree<T> {
     void preOrder() const;  // 遍历整棵二叉树 （包裹函数，下同）
     void midOrder() const;
     void postOrder() const;
+
+    void preOrderNonRecursive() const;  // 遍历整棵二叉树 （包裹函数，下同）
+    void midOrderNonRecursive() const;
+    void postOrderNonRecursive() const;
+
     void levelOrder() const;
     void createTree(T flag);  // 输入一颗二叉树
     T parent(T x, T flag) const { return flag; }
