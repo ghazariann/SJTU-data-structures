@@ -1,4 +1,7 @@
 #include "queue.h"
+#include <iostream>
+using namespace std;
+
 template <class T>
 class priorityQueue:public queue<T>{
 public:
@@ -45,16 +48,16 @@ void priorityQueue<Type>::doubleSpace() {
 }
 
 template <class T>
-void priorityQueue<T>::enQueue(const T& x) {
+void priorityQueue<T>::enQueue(const T& x) { // add
     if (currentSize == maxSize - 1) doubleSpace();
     int hole = ++currentSize;
-    for (; hole > 1 && x < array[hole / 2]; hole /= 2)
+    for (; hole > 1 && x < array[hole / 2]; hole /= 2) //heapify 
         array[hole] = array[hole / 2];
     array[hole] = x;
 }
 
-template <class T>
-T priorityQueue<T>::deQueue() {
+template <class T> 
+T priorityQueue<T>::deQueue() { // poll
     T minItem;
     minItem = array[1];  // 堆顶下标为1或者0，可自行定义
     array[1] = array[currentSize--];
@@ -63,7 +66,7 @@ T priorityQueue<T>::deQueue() {
 }
 
 template <class Type>
-void priorityQueue<Type>::percolateDown(int hole) {
+void priorityQueue<Type>::percolateDown(int hole) { // sink
     int child;
     Type tmp = array[hole];
     for (; hole * 2 <= currentSize; hole = child) {
@@ -78,18 +81,3 @@ void priorityQueue<Type>::percolateDown(int hole) {
     array[hole] = tmp;
 }
 
-int main(int argc, char const *argv[])
-{   
-    // ex 2
-    int a[5] = {8,6,4,3,2};
-    priorityQueue<int> pq(100);
-    pq.enQueue(8);
-    pq.enQueue(6);
-    pq.enQueue(4);
-    pq.enQueue(3);
-    pq.enQueue(2);
-    for (int i = 0; i < 11; i++)
-        cout << pq.deQueue() << endl;
-
-    return 0;
-}

@@ -1,6 +1,6 @@
 # ignore folders named exe
 **/exe/
-
+*.exe
 # ignore .vscode folder
 .vscode/
 textbook/

@@ -94,6 +94,25 @@ using namespace std;
 //     return 0;
 // }
 
+// priorityQueue
+#include "priorityQueue.h"
+int main(int argc, char const *argv[])
+{   
+    // ex 2
+    int a[5] = {8,6,4,3,2};
+    priorityQueue<int> pq(100);
+    pq.enQueue(8);
+    pq.enQueue(6);
+    pq.enQueue(4);
+    pq.enQueue(3);
+    pq.enQueue(2);
+    for (int i = 0; i < 11; i++)
+        cout << pq.deQueue() << endl;
+
+    return 0;
+}
+
+
 // stack
 // #include "Stack.h"
 // int main(int argc, char const *argv[]) {
@@ -106,19 +125,32 @@ using namespace std;
 // }
 
 // tree
-#include "BinaryTree.h"
-int main(int argc, char const *argv[]) {
-    binaryTree<char> tree;
-    // cin 1 ,2 3, 4 5, @ @, @ @, @ @
-    tree.createTree('@');
-    tree.preOrder();
-    tree.midOrder();
-    tree.postOrder();
-    tree.levelOrder();
-    printTree(tree, '@');
-    tree.delLeft ('2');
-    // tree.delRight('3');
-    // tree.delLeft ('C');
-    printTree(tree,'@');
-    return 0;
-}
+// #include "BinaryTree.h"
+// int main(int argc, char const *argv[]) {
+//     binaryTree<char> tree;
+//     // cin 1 ,2 3, 4 5, @ @, @ @, @ @
+//     tree.createTree('@');
+//     tree.preOrder();
+//     tree.midOrder();
+//     tree.postOrder();
+//     tree.levelOrder();
+//     printTree(tree, '@');
+//     tree.delLeft ('2');
+//     // tree.delRight('3');
+//     // tree.delLeft ('C');
+//     printTree(tree,'@');
+//     return 0;
+// }
+
+// searchTree   
+// #include "BinarySearchTree.h"
+// int main(int argc, char const *argv[])
+// {
+//     BinarySearchTree tree;
+//     tree.insert(10);
+//     tree.insert(20);
+//     tree.insert(30);
+//     tree.insert(40);
+    
+//     return 0;
+// }
